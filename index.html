@@ -47,11 +47,9 @@ font-size: 0.9rem;
 margin-bottom: 32px;
 }
 
-/* SCREENS */
 .screen { display: none; max-width: 640px; margin: 0 auto; }
 .screen.active { display: block; }
 
-/* NAME SCREEN */
 .name-box {
 background: var(–card);
 border: 1px solid var(–border);
@@ -60,7 +58,7 @@ padding: 32px 24px;
 text-align: center;
 }
 .name-box h2 { font-size: 1.4rem; margin-bottom: 8px; }
-.name-box p { color: var(–muted); font-size: 0.9rem; margin-bottom: 24px; }
+.name-box p { color: var(–muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5; }
 
 .name-grid {
 display: grid;
@@ -80,11 +78,13 @@ font-size: 0.95rem;
 padding: 12px 8px;
 cursor: pointer;
 transition: all 0.15s;
+position: relative;
 }
 .name-btn:hover { border-color: var(–accent); color: var(–accent); }
 .name-btn.selected { background: var(–accent); border-color: var(–accent); color: #111; }
+.name-btn.voted { opacity: 0.4; cursor: not-allowed; }
+.name-btn.voted::after { content: ‘✓’; position: absolute; top: 4px; right: 6px; font-size: 0.7rem; color: var(–green); }
 
-/* VOTE SCREEN */
 .progress-bar-wrap {
 background: var(–card2);
 border-radius: 99px;
@@ -107,18 +107,12 @@ padding: 24px;
 margin-bottom: 24px;
 }
 
-.cat-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 6px;
-}
-
 .cat-number {
 font-family: ‘Bebas Neue’, sans-serif;
 font-size: 1rem;
 color: var(–accent2);
 letter-spacing: 0.1em;
+margin-bottom: 6px;
 }
 
 .cat-title {
@@ -151,7 +145,7 @@ touch-action: none;
 transition: border-color 0.15s, background 0.15s;
 }
 .rank-item:active { cursor: grabbing; }
-.rank-item.dragging { opacity: 0.4; border-color: var(–accent); }
+.rank-item.dragging { opacity: 0.35; border-color: var(–accent); }
 .rank-item.drag-over { border-color: var(–accent); background: #2a2a38; }
 
 .rank-num {
@@ -161,24 +155,10 @@ color: var(–accent);
 min-width: 24px;
 text-align: center;
 }
+.rank-name { font-weight: 700; font-size: 1rem; flex: 1; }
+.drag-icon { color: var(–muted); font-size: 1.1rem; }
 
-.rank-name {
-font-weight: 700;
-font-size: 1rem;
-flex: 1;
-}
-
-.drag-icon {
-color: var(–muted);
-font-size: 1.1rem;
-}
-
-/* NAV BUTTONS */
-.nav-row {
-display: flex;
-gap: 12px;
-margin-top: 8px;
-}
+.nav-row { display: flex; gap: 12px; margin-top: 8px; }
 
 .btn {
 flex: 1;
@@ -191,23 +171,12 @@ font-size: 1rem;
 cursor: pointer;
 transition: all 0.15s;
 }
-
-.btn-primary {
-background: var(–accent);
-color: #111;
-}
+.btn-primary { background: var(–accent); color: #111; }
 .btn-primary:hover { background: #f5d060; }
-
-.btn-secondary {
-background: var(–card2);
-color: var(–text);
-border: 1.5px solid var(–border);
-}
+.btn-secondary { background: var(–card2); color: var(–text); border: 1.5px solid var(–border); }
 .btn-secondary:hover { border-color: var(–accent); color: var(–accent); }
-
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* SCREENSHOT HINT */
 .screenshot-hint {
 background: #1e2a1e;
 border: 1.5px solid #4caf7d44;
@@ -219,7 +188,24 @@ margin-bottom: 20px;
 text-align: center;
 }
 
-/* DONE SCREEN */
+.loading-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 40px 24px;
+text-align: center;
+color: var(–muted);
+}
+.spinner {
+width: 36px; height: 36px;
+border: 3px solid var(–border);
+border-top-color: var(–accent);
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .done-box {
 background: var(–card);
 border: 1px solid var(–border);
@@ -231,25 +217,21 @@ text-align: center;
 .done-box h2 { font-family: ‘Bebas Neue’, sans-serif; font-size: 2rem; color: var(–accent); margin-bottom: 8px; }
 .done-box p { color: var(–muted); font-size: 0.95rem; line-height: 1.6; }
 
-/* RESULTS SCREEN */
 #results-screen { max-width: 860px; }
 
 .results-header {
 display: flex;
 justify-content: space-between;
 align-items: center;
-margin-bottom: 24px;
+margin-bottom: 16px;
 flex-wrap: wrap;
 gap: 12px;
 }
-
 .results-header h2 {
 font-family: ‘Bebas Neue’, sans-serif;
 font-size: 2rem;
 color: var(–accent);
-letter-spacing: 0.05em;
 }
-
 .voter-count {
 background: var(–card2);
 border: 1px solid var(–border);
@@ -260,132 +242,71 @@ color: var(–muted);
 }
 .voter-count span { color: var(–accent); font-weight: 700; }
 
+.voters-list {
+background: var(–card2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 14px 16px;
+margin-bottom: 20px;
+font-size: 0.88rem;
+color: var(–muted);
+line-height: 1.6;
+}
+.voters-list strong { color: var(–text); }
+
 .result-card {
 background: var(–card);
 border: 1px solid var(–border);
 border-radius: 14px;
 padding: 20px;
-margin-bottom: 16px;
-}
-
-.result-cat-title {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 1.4rem;
-color: var(–accent);
-letter-spacing: 0.04em;
 margin-bottom: 14px;
 }
-
-.result-row {
-display: flex;
-align-items: center;
-gap: 10px;
-margin-bottom: 8px;
-}
-
-.result-rank {
+.result-cat-title {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: 1.1rem;
-color: var(–accent2);
-min-width: 28px;
+font-size: 1.3rem;
+color: var(–accent);
+margin-bottom: 12px;
 }
-
-.result-name {
-font-weight: 700;
-min-width: 90px;
-font-size: 0.95rem;
-}
-
-.bar-wrap {
-flex: 1;
-background: var(–card2);
-border-radius: 99px;
-height: 10px;
-overflow: hidden;
-}
-
-.bar-fill {
-height: 100%;
-border-radius: 99px;
-background: var(–accent);
-transition: width 0.6s ease;
-}
+.result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.result-rank { font-family: ‘Bebas Neue’, sans-serif; font-size: 1rem; color: var(–accent2); min-width: 26px; }
+.result-name { font-weight: 700; min-width: 85px; font-size: 0.9rem; }
+.bar-wrap { flex: 1; background: var(–card2); border-radius: 99px; height: 9px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
 .bar-fill.top1 { background: var(–accent); }
 .bar-fill.top2 { background: #c8a030; }
-.bar-fill.top3 { background: #9d7a20; }
-.bar-fill.rest { background: #555; }
+.bar-fill.top3 { background: #7a6010; }
+.bar-fill.rest { background: #444; }
+.score-label { font-size: 0.78rem; color: var(–muted); min-width: 50px; text-align: right; }
 
-.score-label {
-font-size: 0.8rem;
-color: var(–muted);
-min-width: 60px;
-text-align: right;
-}
-
-/* ADMIN LOGIN */
-.admin-link {
-text-align: center;
-margin-top: 32px;
-}
+.admin-link { text-align: center; margin-top: 32px; }
 .admin-link button {
-background: none;
-border: none;
-color: var(–muted);
-font-size: 0.8rem;
-cursor: pointer;
-text-decoration: underline;
+background: none; border: none; color: var(–muted);
+font-size: 0.8rem; cursor: pointer; text-decoration: underline;
 font-family: ‘Nunito’, sans-serif;
 }
-.admin-link button:hover { color: var(–text); }
 
 .admin-modal {
-display: none;
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,0.7);
-z-index: 100;
-align-items: center;
-justify-content: center;
+display: none; position: fixed; inset: 0;
+background: rgba(0,0,0,0.75); z-index: 100;
+align-items: center; justify-content: center;
 }
 .admin-modal.open { display: flex; }
-
 .admin-box {
-background: var(–card);
-border: 1px solid var(–border);
-border-radius: 16px;
-padding: 32px;
-max-width: 360px;
-width: 90%;
-text-align: center;
+background: var(–card); border: 1px solid var(–border);
+border-radius: 16px; padding: 32px;
+max-width: 340px; width: 90%; text-align: center;
 }
-.admin-box h3 { margin-bottom: 16px; font-size: 1.2rem; }
+.admin-box h3 { margin-bottom: 16px; font-size: 1.1rem; }
 .admin-box input {
-width: 100%;
-background: var(–card2);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-padding: 12px 16px;
-color: var(–text);
-font-family: ‘Nunito’, sans-serif;
-font-size: 1rem;
-margin-bottom: 16px;
-outline: none;
+width: 100%; background: var(–card2); border: 1.5px solid var(–border);
+border-radius: 10px; padding: 12px 16px; color: var(–text);
+font-family: ‘Nunito’, sans-serif; font-size: 1rem;
+margin-bottom: 12px; outline: none;
 }
 .admin-box input:focus { border-color: var(–accent); }
-.admin-close {
-margin-top: 12px;
-display: block;
-background: none;
-border: none;
-color: var(–muted);
-cursor: pointer;
-font-family: ‘Nunito’, sans-serif;
-font-size: 0.9rem;
-}
+.admin-close { margin-top: 12px; display: block; background: none; border: none; color: var(–muted); cursor: pointer; font-family: ‘Nunito’, sans-serif; font-size: 0.9rem; }
+.error-msg { color: #e05a2b; font-size: 0.85rem; margin-bottom: 10px; min-height: 20px; }
 
-.error-msg { color: #e05a2b; font-size: 0.85rem; margin-top: -8px; margin-bottom: 12px; }
-
-/* Responsive */
 @media (max-width: 480px) {
 .name-grid { grid-template-columns: repeat(3, 1fr); }
 }
@@ -394,26 +315,30 @@ font-size: 0.9rem;
 </head>
 <body>
 
-<!-- SCREEN 1: Choose Name -->
-
-<div id="name-screen" class="screen active">
+<div id="loading-screen" class="screen active">
   <h1>ГЛАСУВАНЕ</h1>
-  <p class="subtitle">Анонимно класиране — легендарна компания</p>
+  <p class="subtitle">Зарежда се...</p>
+  <div style="max-width:640px;margin:0 auto">
+    <div class="loading-box"><div class="spinner"></div><p>Моля изчакай</p></div>
+  </div>
+</div>
+
+<div id="name-screen" class="screen">
+  <h1>ГЛАСУВАНЕ</h1>
+  <p class="subtitle">Анонимно класиране — легендарната компания</p>
   <div class="name-box">
     <h2>Кой си?</h2>
-    <p>Избери името си. Гласуването е анонимно — никой освен теб не ще знае кое е твоето.</p>
+    <p>Избери името си. Гласуването е анонимно.<br>Имената с ✓ вече са гласували.</p>
     <div class="name-grid" id="name-grid"></div>
     <button class="btn btn-primary" id="start-btn" disabled onclick="startVoting()">Започни гласуването →</button>
   </div>
   <div class="admin-link"><button onclick="openAdmin()">Резултати (само за организатора)</button></div>
 </div>
 
-<!-- SCREEN 2: Voting -->
-
 <div id="vote-screen" class="screen">
   <h1>ГЛАСУВАНЕ</h1>
   <p class="subtitle">Наредете от 1-во (най-подходящ) до последно</p>
-  <div class="screenshot-hint">📸 Направи скрийншот ако искаш да запазиш гласуването си!</div>
+  <div class="screenshot-hint">📸 Направи скрийншот преди да завършиш ако искаш да запазиш гласа си!</div>
   <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
   <div id="category-container"></div>
   <div class="nav-row">
@@ -422,28 +347,27 @@ font-size: 0.9rem;
   </div>
 </div>
 
-<!-- SCREEN 3: Done -->
-
 <div id="done-screen" class="screen">
-  <div class="done-box">
-    <div class="done-icon">🎉</div>
-    <h2>Гласувал си!</h2>
-    <p>Твоят глас беше записан анонимно.<br>Резултатите ще видите когато организаторът реши.<br><br>📸 Ако не си направил скрийншот на гласуването си, можеш да се върнеш назад.</p>
+  <div style="max-width:640px;margin:0 auto">
+    <div class="done-box">
+      <div class="done-icon">🎉</div>
+      <h2>Гласувал си!</h2>
+      <p>Твоят глас беше записан анонимно.<br>Резултатите ще видите когато организаторът реши.</p>
+    </div>
   </div>
 </div>
-
-<!-- SCREEN 4: Results -->
 
 <div id="results-screen" class="screen">
   <h1>РЕЗУЛТАТИ</h1>
-  <div class="results-header">
-    <h2>Класации</h2>
-    <div class="voter-count">Гласували: <span id="voter-count-num">0</span> / 13</div>
+  <div style="max-width:860px;margin:0 auto">
+    <div class="results-header">
+      <h2>Класации</h2>
+      <div class="voter-count">Гласували: <span id="voter-count-num">0</span> / 13</div>
+    </div>
+    <div class="voters-list" id="voters-list"></div>
+    <div id="results-container"></div>
   </div>
-  <div id="results-container"></div>
 </div>
-
-<!-- Admin Modal -->
 
 <div class="admin-modal" id="admin-modal">
   <div class="admin-box">
@@ -456,77 +380,78 @@ font-size: 0.9rem;
 </div>
 
 <script>
-// ============================================================
-// CONFIG
-// ============================================================
 const NAMES = ["Рани","Даниел","Криската","Волен","Денислав","Тома","Пацо","Ричард","Ивчо","Мишо","Стойко","Любо","Габо"];
-
 const CATEGORIES = [
-  "Най-умен",
-  "Най-надежден",
-  "Най-забавен",
-  "Най-красив",
-  "Най-стилен",
-  "Най-креативен",
-  "Най-закъсняващ",
-  "Най-оправен",
-  "Най-скаран с технологиите",
-  "Най му се получава с жените",
-  "Най-вероятен да стане известен",
-  "Най-вероятен да стане милионер",
-  "Най-вероятен да има дете първи",
-  "Най-вероятно да се ожени първи",
-  "Най-добър боец",
-  "Най-вероятно да влезе в затвора",
+  "Най-умен","Най-надежден","Най-забавен","Най-красив","Най-стилен","Най-креативен",
+  "Най-закъсняващ","Най-оправен","Най-скаран с технологиите","Най му се получава с жените",
+  "Най-вероятен да стане известен","Най-вероятен да стане милионер",
+  "Най-вероятен да има дете първи","Най-вероятно да се ожени първи",
+  "Най-добър боец","Най-вероятно да влезе в затвора",
   "Най-вероятен да стане the cool uncle",
   "Най-вероятен да се напие първи на събиране",
   "Най-вероятно да качи стори/тикток за женско внимание",
   "Най-вероятно да спи с проститутка"
 ];
 
-// CHANGE THIS PASSWORD:
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "legendarna2024";
+const BIN_ID = "69f7c804856a682189a16ec5";
+const API_KEY = "$2a$10$/dVaC9ZeJui.1phRY/KA9uMLboqu/iTHS9IzSNKwd7lk9AnhSYqSK";
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-const STORAGE_KEY = "glasuvane_v1";
-
-// ============================================================
-// STATE
-// ============================================================
 let selectedName = null;
 let currentCat = 0;
-// votes[catIndex] = ordered array of names (index 0 = rank 1)
 let votes = CATEGORIES.map(() => [...NAMES]);
 let dragging = null;
-let touchDragEl = null;
 let touchDragIndex = null;
+let currentBinData = null;
 
-// ============================================================
-// STORAGE HELPERS
-// ============================================================
-function loadData() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { voters: [], results: {} }; }
-  catch(e) { return { voters: [], results: {} }; }
+// ── JSONBin helpers ──────────────────────────────────────────
+async function fetchData() {
+  const r = await fetch(API_URL + "/latest", {
+    headers: { "X-Master-Key": API_KEY }
+  });
+  const json = await r.json();
+  return json.record;
 }
-function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 
-// ============================================================
-// NAME SCREEN
-// ============================================================
-const grid = document.getElementById('name-grid');
-NAMES.forEach(name => {
-  const btn = document.createElement('button');
-  btn.className = 'name-btn';
-  btn.textContent = name;
-  btn.onclick = () => selectName(name, btn);
-  grid.appendChild(btn);
-});
+async function putData(data) {
+  const r = await fetch(API_URL, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error("Save failed");
+  return r.json();
+}
 
-function selectName(name, btn) {
-  const data = loadData();
-  if (data.voters.includes(name)) {
-    alert(`${name} вече е гласувал/а! Ако е грешка, свържи се с организатора.`);
-    return;
+// ── Init ─────────────────────────────────────────────────────
+async function init() {
+  try {
+    currentBinData = await fetchData();
+    buildNameGrid(currentBinData.voters || []);
+    showScreen('name-screen');
+  } catch(e) {
+    document.querySelector('#loading-screen .loading-box').innerHTML =
+      '<p style="color:#e05a2b">Грешка при зареждане. Провери интернет връзката и презареди страницата.</p>';
   }
+}
+
+function buildNameGrid(voters) {
+  const grid = document.getElementById('name-grid');
+  grid.innerHTML = '';
+  NAMES.forEach(name => {
+    const hasVoted = voters.includes(name);
+    const btn = document.createElement('button');
+    btn.className = 'name-btn' + (hasVoted ? ' voted' : '');
+    btn.textContent = name;
+    btn.disabled = hasVoted;
+    btn.onclick = () => selectName(name, btn, voters);
+    grid.appendChild(btn);
+  });
+}
+
+function selectName(name, btn, voters) {
+  if (voters.includes(name)) return;
   selectedName = name;
   document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -541,25 +466,19 @@ function startVoting() {
   renderCategory();
 }
 
-// ============================================================
-// VOTING SCREEN
-// ============================================================
+// ── Voting ───────────────────────────────────────────────────
 function renderCategory() {
   const total = CATEGORIES.length;
-  const pct = ((currentCat) / total) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-fill').style.width = (currentCat / total * 100) + '%';
   document.getElementById('prev-btn').disabled = currentCat === 0;
   document.getElementById('next-btn').textContent = currentCat === total - 1 ? 'Завърши ✓' : 'Напред →';
 
   const container = document.getElementById('category-container');
   container.innerHTML = '';
-
   const card = document.createElement('div');
   card.className = 'category-card';
   card.innerHTML = `
-    <div class="cat-header">
-      <span class="cat-number">КАТЕГОРИЯ ${currentCat + 1} / ${total}</span>
-    </div>
+    <div class="cat-number">КАТЕГОРИЯ ${currentCat+1} / ${total}</div>
     <div class="cat-title">${CATEGORIES[currentCat]}</div>
     <ul class="ranking-list" id="rank-list"></ul>
   `;
@@ -571,85 +490,50 @@ function renderCategory() {
     li.className = 'rank-item';
     li.draggable = true;
     li.dataset.index = i;
-    li.innerHTML = `<span class="rank-num">${i + 1}</span><span class="rank-name">${name}</span><span class="drag-icon">⠿</span>`;
-    // Desktop drag
+    li.innerHTML = `<span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="drag-icon">⠿</span>`;
     li.addEventListener('dragstart', onDragStart);
     li.addEventListener('dragover', onDragOver);
     li.addEventListener('drop', onDrop);
     li.addEventListener('dragend', onDragEnd);
-    // Touch drag
-    li.addEventListener('touchstart', onTouchStart, {passive: false});
-    li.addEventListener('touchmove', onTouchMove, {passive: false});
+    li.addEventListener('touchstart', onTouchStart, {passive:false});
+    li.addEventListener('touchmove', onTouchMove, {passive:false});
     li.addEventListener('touchend', onTouchEnd);
     list.appendChild(li);
   });
 }
 
 // Desktop DnD
-function onDragStart(e) {
-  dragging = this;
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-}
-function onDragOver(e) {
-  e.preventDefault();
-  document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('drag-over'));
-  this.classList.add('drag-over');
-}
+function onDragStart(e) { dragging = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+function onDragOver(e) { e.preventDefault(); document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('drag-over')); this.classList.add('drag-over'); }
 function onDrop(e) {
   e.preventDefault();
   if (dragging && dragging !== this) {
-    const fromIdx = parseInt(dragging.dataset.index);
-    const toIdx = parseInt(this.dataset.index);
-    const arr = votes[currentCat];
-    const [moved] = arr.splice(fromIdx, 1);
-    arr.splice(toIdx, 0, moved);
+    const from = parseInt(dragging.dataset.index), to = parseInt(this.dataset.index);
+    const [m] = votes[currentCat].splice(from, 1);
+    votes[currentCat].splice(to, 0, m);
     renderCategory();
   }
 }
-function onDragEnd() {
-  document.querySelectorAll('.rank-item').forEach(el => { el.classList.remove('dragging'); el.classList.remove('drag-over'); });
-  dragging = null;
-}
+function onDragEnd() { document.querySelectorAll('.rank-item').forEach(el => { el.classList.remove('dragging'); el.classList.remove('drag-over'); }); dragging = null; }
 
 // Touch DnD
-let touchStartY = 0;
-let touchCurrentEl = null;
-let ghost = null;
-
-function onTouchStart(e) {
-  touchDragEl = this;
-  touchDragIndex = parseInt(this.dataset.index);
-  touchStartY = e.touches[0].clientY;
-  this.classList.add('dragging');
-}
-
+function onTouchStart(e) { touchDragIndex = parseInt(this.dataset.index); this.classList.add('dragging'); }
 function onTouchMove(e) {
   e.preventDefault();
   const y = e.touches[0].clientY;
   const items = Array.from(document.querySelectorAll('.rank-item'));
   let targetIndex = touchDragIndex;
-  items.forEach((item, i) => {
-    const rect = item.getBoundingClientRect();
-    if (y > rect.top && y < rect.bottom) targetIndex = i;
-  });
+  items.forEach((item, i) => { const r = item.getBoundingClientRect(); if (y > r.top && y < r.bottom) targetIndex = i; });
   if (targetIndex !== touchDragIndex) {
-    const arr = votes[currentCat];
-    const [moved] = arr.splice(touchDragIndex, 1);
-    arr.splice(targetIndex, 0, moved);
+    const [m] = votes[currentCat].splice(touchDragIndex, 1);
+    votes[currentCat].splice(targetIndex, 0, m);
     touchDragIndex = targetIndex;
     renderCategory();
-    // re-apply dragging class
     const newItems = document.querySelectorAll('.rank-item');
     if (newItems[targetIndex]) newItems[targetIndex].classList.add('dragging');
-    touchDragEl = newItems[targetIndex];
   }
 }
-
-function onTouchEnd() {
-  document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('dragging'));
-  touchDragEl = null;
-}
+function onTouchEnd() { document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('dragging')); }
 
 function nextCat() {
   if (currentCat < CATEGORIES.length - 1) {
@@ -660,7 +544,6 @@ function nextCat() {
     submitVotes();
   }
 }
-
 function prevCat() {
   if (currentCat > 0) {
     currentCat--;
@@ -669,86 +552,105 @@ function prevCat() {
   }
 }
 
-// ============================================================
-// SUBMIT
-// ============================================================
-function submitVotes() {
-  const data = loadData();
-  if (data.voters.includes(selectedName)) {
-    alert('Вече си гласувал/а!');
-    return;
+// ── Submit ───────────────────────────────────────────────────
+async function submitVotes() {
+  const btn = document.getElementById('next-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Записва се...';
+
+  try {
+    // Fresh fetch to avoid race conditions
+    const fresh = await fetchData();
+
+    if (fresh.voters && fresh.voters.includes(selectedName)) {
+      alert('Вече си гласувал/а!');
+      btn.disabled = false;
+      btn.textContent = 'Завърши ✓';
+      return;
+    }
+
+    const N = NAMES.length;
+    const results = fresh.results || {};
+
+    CATEGORIES.forEach((cat, ci) => {
+      if (!results[cat]) results[cat] = {};
+      votes[ci].forEach((name, rank) => {
+        if (!results[cat][name]) results[cat][name] = 0;
+        results[cat][name] += (N - rank);
+      });
+    });
+
+    const voters = [...(fresh.voters || []), selectedName];
+    await putData({ voters, results });
+
+    showScreen('done-screen');
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Завърши ✓';
+    alert('Грешка при записване. Провери интернет и опитай пак.');
   }
-  // Record voter
-  data.voters.push(selectedName);
-  // Accumulate scores: rank 1 gets (N) points, rank N gets 1 point
-  const N = NAMES.length;
-  CATEGORIES.forEach((cat, ci) => {
-    if (!data.results[cat]) data.results[cat] = {};
-    votes[ci].forEach((name, rank) => {
-      if (!data.results[cat][name]) data.results[cat][name] = 0;
-      data.results[cat][name] += (N - rank); // rank 0 = most points
-    });
-  });
-  saveData(data);
-  showScreen('done-screen');
 }
 
-// ============================================================
-// RESULTS
-// ============================================================
-function showResults() {
-  const data = loadData();
-  document.getElementById('voter-count-num').textContent = data.voters.length;
-  const container = document.getElementById('results-container');
-  container.innerHTML = '';
-
-  CATEGORIES.forEach(cat => {
-    const scores = data.results[cat] || {};
-    const sorted = NAMES.map(n => ({ name: n, score: scores[n] || 0 }))
-      .sort((a, b) => b.score - a.score);
-    const maxScore = sorted[0]?.score || 1;
-
-    const card = document.createElement('div');
-    card.className = 'result-card';
-    let html = `<div class="result-cat-title">${cat}</div>`;
-
-    sorted.forEach((item, i) => {
-      const pct = maxScore > 0 ? (item.score / maxScore * 100) : 0;
-      const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : 'rest';
-      html += `<div class="result-row">
-        <span class="result-rank">${i+1}.</span>
-        <span class="result-name">${item.name}</span>
-        <div class="bar-wrap"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
-        <span class="score-label">${item.score} т.</span>
-      </div>`;
-    });
-
-    card.innerHTML = html;
-    container.appendChild(card);
-  });
-
+// ── Results ──────────────────────────────────────────────────
+async function showResults() {
   showScreen('results-screen');
+  document.getElementById('results-container').innerHTML =
+    '<div class="loading-box"><div class="spinner"></div><p>Зарежда резултати...</p></div>';
+
+  try {
+    const data = await fetchData();
+    const voters = data.voters || [];
+    const results = data.results || {};
+
+    document.getElementById('voter-count-num').textContent = voters.length;
+    document.getElementById('voters-list').innerHTML =
+      `<strong>Гласували (${voters.length}/13):</strong> ${voters.length > 0 ? voters.join(', ') : 'Все още няма гласове'}`;
+
+    const container = document.getElementById('results-container');
+    container.innerHTML = '';
+
+    CATEGORIES.forEach(cat => {
+      const scores = results[cat] || {};
+      const sorted = NAMES.map(n => ({ name: n, score: scores[n] || 0 })).sort((a,b) => b.score - a.score);
+      const maxScore = sorted[0]?.score || 1;
+
+      const card = document.createElement('div');
+      card.className = 'result-card';
+      let html = `<div class="result-cat-title">${cat}</div>`;
+      sorted.forEach((item, i) => {
+        const pct = maxScore > 0 ? (item.score / maxScore * 100) : 0;
+        const cls = i===0?'top1':i===1?'top2':i===2?'top3':'rest';
+        html += `<div class="result-row">
+          <span class="result-rank">${i+1}.</span>
+          <span class="result-name">${item.name}</span>
+          <div class="bar-wrap"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+          <span class="score-label">${item.score}т.</span>
+        </div>`;
+      });
+      card.innerHTML = html;
+      container.appendChild(card);
+    });
+  } catch(e) {
+    document.getElementById('results-container').innerHTML =
+      '<div class="loading-box"><p style="color:#e05a2b">Грешка при зареждане на резултатите.</p></div>';
+  }
 }
 
-// ============================================================
-// ADMIN
-// ============================================================
-function openAdmin() { document.getElementById('admin-modal').classList.add('open'); document.getElementById('admin-pass').focus(); }
-function closeAdmin() { document.getElementById('admin-modal').classList.remove('open'); document.getElementById('admin-error').textContent = ''; document.getElementById('admin-pass').value = ''; }
+// ── Admin ────────────────────────────────────────────────────
+function openAdmin() { document.getElementById('admin-modal').classList.add('open'); setTimeout(()=>document.getElementById('admin-pass').focus(),100); }
+function closeAdmin() { document.getElementById('admin-modal').classList.remove('open'); document.getElementById('admin-error').textContent=''; document.getElementById('admin-pass').value=''; }
 function checkAdmin() {
-  const val = document.getElementById('admin-pass').value;
-  if (val === ADMIN_PASSWORD) { closeAdmin(); showResults(); }
-  else { document.getElementById('admin-error').textContent = 'Грешна парола!'; }
+  if (document.getElementById('admin-pass').value === ADMIN_PASSWORD) { closeAdmin(); showResults(); }
+  else document.getElementById('admin-error').textContent = 'Грешна парола!';
 }
 
-// ============================================================
-// UTILS
-// ============================================================
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+init();
 </script>
 
 </body>
