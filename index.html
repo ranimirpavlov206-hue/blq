@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анонимно гласуване</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap');
+
+:root {
+–bg: #0f0f13;
+–card: #1a1a24;
+–card2: #22222f;
+–accent: #f0c040;
+–accent2: #e05a2b;
+–text: #f0eee8;
+–muted: #888;
+–border: #333345;
+–green: #4caf7d;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Nunito’, sans-serif;
+min-height: 100vh;
+padding: 24px 16px 60px;
+}
+
+h1 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(2.4rem, 8vw, 4rem);
+letter-spacing: 0.06em;
+color: var(–accent);
+text-align: center;
+margin-bottom: 4px;
+line-height: 1;
+}
+
+.subtitle {
+text-align: center;
+color: var(–muted);
+font-size: 0.9rem;
+margin-bottom: 32px;
+}
+
+/* SCREENS */
+.screen { display: none; max-width: 640px; margin: 0 auto; }
+.screen.active { display: block; }
+
+/* NAME SCREEN */
+.name-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 32px 24px;
+text-align: center;
+}
+.name-box h2 { font-size: 1.4rem; margin-bottom: 8px; }
+.name-box p { color: var(–muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+.name-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+gap: 10px;
+margin-bottom: 24px;
+}
+
+.name-btn {
+background: var(–card2);
+border: 2px solid var(–border);
+border-radius: 10px;
+color: var(–text);
+font-family: ‘Nunito’, sans-serif;
+font-weight: 700;
+font-size: 0.95rem;
+padding: 12px 8px;
+cursor: pointer;
+transition: all 0.15s;
+}
+.name-btn:hover { border-color: var(–accent); color: var(–accent); }
+.name-btn.selected { background: var(–accent); border-color: var(–accent); color: #111; }
+
+/* VOTE SCREEN */
+.progress-bar-wrap {
+background: var(–card2);
+border-radius: 99px;
+height: 6px;
+margin-bottom: 24px;
+overflow: hidden;
+}
+.progress-bar-fill {
+height: 100%;
+background: var(–accent);
+border-radius: 99px;
+transition: width 0.3s ease;
+}
+
+.category-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 24px;
+margin-bottom: 24px;
+}
+
+.cat-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 6px;
+}
+
+.cat-number {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1rem;
+color: var(–accent2);
+letter-spacing: 0.1em;
+}
+
+.cat-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.7rem;
+color: var(–accent);
+letter-spacing: 0.04em;
+margin-bottom: 16px;
+line-height: 1.1;
+}
+
+.ranking-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.rank-item {
+display: flex;
+align-items: center;
+gap: 10px;
+background: var(–card2);
+border: 1.5px solid var(–border);
+border-radius: 10px;
+padding: 10px 14px;
+cursor: grab;
+user-select: none;
+touch-action: none;
+transition: border-color 0.15s, background 0.15s;
+}
+.rank-item:active { cursor: grabbing; }
+.rank-item.dragging { opacity: 0.4; border-color: var(–accent); }
+.rank-item.drag-over { border-color: var(–accent); background: #2a2a38; }
+
+.rank-num {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.1rem;
+color: var(–accent);
+min-width: 24px;
+text-align: center;
+}
+
+.rank-name {
+font-weight: 700;
+font-size: 1rem;
+flex: 1;
+}
+
+.drag-icon {
+color: var(–muted);
+font-size: 1.1rem;
+}
+
+/* NAV BUTTONS */
+.nav-row {
+display: flex;
+gap: 12px;
+margin-top: 8px;
+}
+
+.btn {
+flex: 1;
+padding: 14px;
+border-radius: 12px;
+border: none;
+font-family: ‘Nunito’, sans-serif;
+font-weight: 900;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.btn-primary {
+background: var(–accent);
+color: #111;
+}
+.btn-primary:hover { background: #f5d060; }
+
+.btn-secondary {
+background: var(–card2);
+color: var(–text);
+border: 1.5px solid var(–border);
+}
+.btn-secondary:hover { border-color: var(–accent); color: var(–accent); }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* SCREENSHOT HINT */
+.screenshot-hint {
+background: #1e2a1e;
+border: 1.5px solid #4caf7d44;
+border-radius: 12px;
+padding: 14px 18px;
+font-size: 0.85rem;
+color: #9dd4b0;
+margin-bottom: 20px;
+text-align: center;
+}
+
+/* DONE SCREEN */
+.done-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 40px 24px;
+text-align: center;
+}
+.done-icon { font-size: 3rem; margin-bottom: 16px; }
+.done-box h2 { font-family: ‘Bebas Neue’, sans-serif; font-size: 2rem; color: var(–accent); margin-bottom: 8px; }
+.done-box p { color: var(–muted); font-size: 0.95rem; line-height: 1.6; }
+
+/* RESULTS SCREEN */
+#results-screen { max-width: 860px; }
+
+.results-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 24px;
+flex-wrap: wrap;
+gap: 12px;
+}
+
+.results-header h2 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 2rem;
+color: var(–accent);
+letter-spacing: 0.05em;
+}
+
+.voter-count {
+background: var(–card2);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 6px 14px;
+font-size: 0.85rem;
+color: var(–muted);
+}
+.voter-count span { color: var(–accent); font-weight: 700; }
+
+.result-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 14px;
+padding: 20px;
+margin-bottom: 16px;
+}
+
+.result-cat-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.4rem;
+color: var(–accent);
+letter-spacing: 0.04em;
+margin-bottom: 14px;
+}
+
+.result-row {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 8px;
+}
+
+.result-rank {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.1rem;
+color: var(–accent2);
+min-width: 28px;
+}
+
+.result-name {
+font-weight: 700;
+min-width: 90px;
+font-size: 0.95rem;
+}
+
+.bar-wrap {
+flex: 1;
+background: var(–card2);
+border-radius: 99px;
+height: 10px;
+overflow: hidden;
+}
+
+.bar-fill {
+height: 100%;
+border-radius: 99px;
+background: var(–accent);
+transition: width 0.6s ease;
+}
+.bar-fill.top1 { background: var(–accent); }
+.bar-fill.top2 { background: #c8a030; }
+.bar-fill.top3 { background: #9d7a20; }
+.bar-fill.rest { background: #555; }
+
+.score-label {
+font-size: 0.8rem;
+color: var(–muted);
+min-width: 60px;
+text-align: right;
+}
+
+/* ADMIN LOGIN */
+.admin-link {
+text-align: center;
+margin-top: 32px;
+}
+.admin-link button {
+background: none;
+border: none;
+color: var(–muted);
+font-size: 0.8rem;
+cursor: pointer;
+text-decoration: underline;
+font-family: ‘Nunito’, sans-serif;
+}
+.admin-link button:hover { color: var(–text); }
+
+.admin-modal {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.7);
+z-index: 100;
+align-items: center;
+justify-content: center;
+}
+.admin-modal.open { display: flex; }
+
+.admin-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 32px;
+max-width: 360px;
+width: 90%;
+text-align: center;
+}
+.admin-box h3 { margin-bottom: 16px; font-size: 1.2rem; }
+.admin-box input {
+width: 100%;
+background: var(–card2);
+border: 1.5px solid var(–border);
+border-radius: 10px;
+padding: 12px 16px;
+color: var(–text);
+font-family: ‘Nunito’, sans-serif;
+font-size: 1rem;
+margin-bottom: 16px;
+outline: none;
+}
+.admin-box input:focus { border-color: var(–accent); }
+.admin-close {
+margin-top: 12px;
+display: block;
+background: none;
+border: none;
+color: var(–muted);
+cursor: pointer;
+font-family: ‘Nunito’, sans-serif;
+font-size: 0.9rem;
+}
+
+.error-msg { color: #e05a2b; font-size: 0.85rem; margin-top: -8px; margin-bottom: 12px; }
+
+/* Responsive */
+@media (max-width: 480px) {
+.name-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+</head>
+<body>
+
+<!-- SCREEN 1: Choose Name -->
+
+<div id="name-screen" class="screen active">
+  <h1>ГЛАСУВАНЕ</h1>
+  <p class="subtitle">Анонимно класиране — легендарна компания</p>
+  <div class="name-box">
+    <h2>Кой си?</h2>
+    <p>Избери името си. Гласуването е анонимно — никой освен теб не ще знае кое е твоето.</p>
+    <div class="name-grid" id="name-grid"></div>
+    <button class="btn btn-primary" id="start-btn" disabled onclick="startVoting()">Започни гласуването →</button>
+  </div>
+  <div class="admin-link"><button onclick="openAdmin()">Резултати (само за организатора)</button></div>
+</div>
+
+<!-- SCREEN 2: Voting -->
+
+<div id="vote-screen" class="screen">
+  <h1>ГЛАСУВАНЕ</h1>
+  <p class="subtitle">Наредете от 1-во (най-подходящ) до последно</p>
+  <div class="screenshot-hint">📸 Направи скрийншот ако искаш да запазиш гласуването си!</div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+  <div id="category-container"></div>
+  <div class="nav-row">
+    <button class="btn btn-secondary" id="prev-btn" onclick="prevCat()">← Назад</button>
+    <button class="btn btn-primary" id="next-btn" onclick="nextCat()">Напред →</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: Done -->
+
+<div id="done-screen" class="screen">
+  <div class="done-box">
+    <div class="done-icon">🎉</div>
+    <h2>Гласувал си!</h2>
+    <p>Твоят глас беше записан анонимно.<br>Резултатите ще видите когато организаторът реши.<br><br>📸 Ако не си направил скрийншот на гласуването си, можеш да се върнеш назад.</p>
+  </div>
+</div>
+
+<!-- SCREEN 4: Results -->
+
+<div id="results-screen" class="screen">
+  <h1>РЕЗУЛТАТИ</h1>
+  <div class="results-header">
+    <h2>Класации</h2>
+    <div class="voter-count">Гласували: <span id="voter-count-num">0</span> / 13</div>
+  </div>
+  <div id="results-container"></div>
+</div>
+
+<!-- Admin Modal -->
+
+<div class="admin-modal" id="admin-modal">
+  <div class="admin-box">
+    <h3>🔐 Парола за резултати</h3>
+    <input type="password" id="admin-pass" placeholder="Въведи паролата" onkeydown="if(event.key==='Enter')checkAdmin()">
+    <div class="error-msg" id="admin-error"></div>
+    <button class="btn btn-primary" style="width:100%" onclick="checkAdmin()">Влез</button>
+    <button class="admin-close" onclick="closeAdmin()">Затвори</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const NAMES = ["Рани","Даниел","Криската","Волен","Денислав","Тома","Пацо","Ричард","Ивчо","Мишо","Стойко","Любо","Габо"];
+
+const CATEGORIES = [
+  "Най-умен",
+  "Най-надежден",
+  "Най-забавен",
+  "Най-красив",
+  "Най-стилен",
+  "Най-креативен",
+  "Най-закъсняващ",
+  "Най-оправен",
+  "Най-скаран с технологиите",
+  "Най му се получава с жените",
+  "Най-вероятен да стане известен",
+  "Най-вероятен да стане милионер",
+  "Най-вероятен да има дете първи",
+  "Най-вероятно да се ожени първи",
+  "Най-добър боец",
+  "Най-вероятно да влезе в затвора",
+  "Най-вероятен да стане the cool uncle",
+  "Най-вероятен да се напие първи на събиране",
+  "Най-вероятно да качи стори/тикток за женско внимание",
+  "Най-вероятно да спи с проститутка"
+];
+
+// CHANGE THIS PASSWORD:
+const ADMIN_PASSWORD = "admin123";
+
+const STORAGE_KEY = "glasuvane_v1";
+
+// ============================================================
+// STATE
+// ============================================================
+let selectedName = null;
+let currentCat = 0;
+// votes[catIndex] = ordered array of names (index 0 = rank 1)
+let votes = CATEGORIES.map(() => [...NAMES]);
+let dragging = null;
+let touchDragEl = null;
+let touchDragIndex = null;
+
+// ============================================================
+// STORAGE HELPERS
+// ============================================================
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { voters: [], results: {} }; }
+  catch(e) { return { voters: [], results: {} }; }
+}
+function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+// ============================================================
+// NAME SCREEN
+// ============================================================
+const grid = document.getElementById('name-grid');
+NAMES.forEach(name => {
+  const btn = document.createElement('button');
+  btn.className = 'name-btn';
+  btn.textContent = name;
+  btn.onclick = () => selectName(name, btn);
+  grid.appendChild(btn);
+});
+
+function selectName(name, btn) {
+  const data = loadData();
+  if (data.voters.includes(name)) {
+    alert(`${name} вече е гласувал/а! Ако е грешка, свържи се с организатора.`);
+    return;
+  }
+  selectedName = name;
+  document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('start-btn').disabled = false;
+}
+
+function startVoting() {
+  if (!selectedName) return;
+  votes = CATEGORIES.map(() => [...NAMES]);
+  currentCat = 0;
+  showScreen('vote-screen');
+  renderCategory();
+}
+
+// ============================================================
+// VOTING SCREEN
+// ============================================================
+function renderCategory() {
+  const total = CATEGORIES.length;
+  const pct = ((currentCat) / total) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('prev-btn').disabled = currentCat === 0;
+  document.getElementById('next-btn').textContent = currentCat === total - 1 ? 'Завърши ✓' : 'Напред →';
+
+  const container = document.getElementById('category-container');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'category-card';
+  card.innerHTML = `
+    <div class="cat-header">
+      <span class="cat-number">КАТЕГОРИЯ ${currentCat + 1} / ${total}</span>
+    </div>
+    <div class="cat-title">${CATEGORIES[currentCat]}</div>
+    <ul class="ranking-list" id="rank-list"></ul>
+  `;
+  container.appendChild(card);
+
+  const list = document.getElementById('rank-list');
+  votes[currentCat].forEach((name, i) => {
+    const li = document.createElement('li');
+    li.className = 'rank-item';
+    li.draggable = true;
+    li.dataset.index = i;
+    li.innerHTML = `<span class="rank-num">${i + 1}</span><span class="rank-name">${name}</span><span class="drag-icon">⠿</span>`;
+    // Desktop drag
+    li.addEventListener('dragstart', onDragStart);
+    li.addEventListener('dragover', onDragOver);
+    li.addEventListener('drop', onDrop);
+    li.addEventListener('dragend', onDragEnd);
+    // Touch drag
+    li.addEventListener('touchstart', onTouchStart, {passive: false});
+    li.addEventListener('touchmove', onTouchMove, {passive: false});
+    li.addEventListener('touchend', onTouchEnd);
+    list.appendChild(li);
+  });
+}
+
+// Desktop DnD
+function onDragStart(e) {
+  dragging = this;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onDragOver(e) {
+  e.preventDefault();
+  document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('drag-over'));
+  this.classList.add('drag-over');
+}
+function onDrop(e) {
+  e.preventDefault();
+  if (dragging && dragging !== this) {
+    const fromIdx = parseInt(dragging.dataset.index);
+    const toIdx = parseInt(this.dataset.index);
+    const arr = votes[currentCat];
+    const [moved] = arr.splice(fromIdx, 1);
+    arr.splice(toIdx, 0, moved);
+    renderCategory();
+  }
+}
+function onDragEnd() {
+  document.querySelectorAll('.rank-item').forEach(el => { el.classList.remove('dragging'); el.classList.remove('drag-over'); });
+  dragging = null;
+}
+
+// Touch DnD
+let touchStartY = 0;
+let touchCurrentEl = null;
+let ghost = null;
+
+function onTouchStart(e) {
+  touchDragEl = this;
+  touchDragIndex = parseInt(this.dataset.index);
+  touchStartY = e.touches[0].clientY;
+  this.classList.add('dragging');
+}
+
+function onTouchMove(e) {
+  e.preventDefault();
+  const y = e.touches[0].clientY;
+  const items = Array.from(document.querySelectorAll('.rank-item'));
+  let targetIndex = touchDragIndex;
+  items.forEach((item, i) => {
+    const rect = item.getBoundingClientRect();
+    if (y > rect.top && y < rect.bottom) targetIndex = i;
+  });
+  if (targetIndex !== touchDragIndex) {
+    const arr = votes[currentCat];
+    const [moved] = arr.splice(touchDragIndex, 1);
+    arr.splice(targetIndex, 0, moved);
+    touchDragIndex = targetIndex;
+    renderCategory();
+    // re-apply dragging class
+    const newItems = document.querySelectorAll('.rank-item');
+    if (newItems[targetIndex]) newItems[targetIndex].classList.add('dragging');
+    touchDragEl = newItems[targetIndex];
+  }
+}
+
+function onTouchEnd() {
+  document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('dragging'));
+  touchDragEl = null;
+}
+
+function nextCat() {
+  if (currentCat < CATEGORIES.length - 1) {
+    currentCat++;
+    renderCategory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    submitVotes();
+  }
+}
+
+function prevCat() {
+  if (currentCat > 0) {
+    currentCat--;
+    renderCategory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+// ============================================================
+// SUBMIT
+// ============================================================
+function submitVotes() {
+  const data = loadData();
+  if (data.voters.includes(selectedName)) {
+    alert('Вече си гласувал/а!');
+    return;
+  }
+  // Record voter
+  data.voters.push(selectedName);
+  // Accumulate scores: rank 1 gets (N) points, rank N gets 1 point
+  const N = NAMES.length;
+  CATEGORIES.forEach((cat, ci) => {
+    if (!data.results[cat]) data.results[cat] = {};
+    votes[ci].forEach((name, rank) => {
+      if (!data.results[cat][name]) data.results[cat][name] = 0;
+      data.results[cat][name] += (N - rank); // rank 0 = most points
+    });
+  });
+  saveData(data);
+  showScreen('done-screen');
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function showResults() {
+  const data = loadData();
+  document.getElementById('voter-count-num').textContent = data.voters.length;
+  const container = document.getElementById('results-container');
+  container.innerHTML = '';
+
+  CATEGORIES.forEach(cat => {
+    const scores = data.results[cat] || {};
+    const sorted = NAMES.map(n => ({ name: n, score: scores[n] || 0 }))
+      .sort((a, b) => b.score - a.score);
+    const maxScore = sorted[0]?.score || 1;
+
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    let html = `<div class="result-cat-title">${cat}</div>`;
+
+    sorted.forEach((item, i) => {
+      const pct = maxScore > 0 ? (item.score / maxScore * 100) : 0;
+      const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : 'rest';
+      html += `<div class="result-row">
+        <span class="result-rank">${i+1}.</span>
+        <span class="result-name">${item.name}</span>
+        <div class="bar-wrap"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+        <span class="score-label">${item.score} т.</span>
+      </div>`;
+    });
+
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+
+  showScreen('results-screen');
+}
+
+// ============================================================
+// ADMIN
+// ============================================================
+function openAdmin() { document.getElementById('admin-modal').classList.add('open'); document.getElementById('admin-pass').focus(); }
+function closeAdmin() { document.getElementById('admin-modal').classList.remove('open'); document.getElementById('admin-error').textContent = ''; document.getElementById('admin-pass').value = ''; }
+function checkAdmin() {
+  const val = document.getElementById('admin-pass').value;
+  if (val === ADMIN_PASSWORD) { closeAdmin(); showResults(); }
+  else { document.getElementById('admin-error').textContent = 'Грешна парола!'; }
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
