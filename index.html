@@ -6,24 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Анонимно гласуване</title>
 <style>
-  :root {
-    --bg: #0f0f13;
-    --card: #1a1a24;
-    --card2: #22222f;
-    --accent: #f0c040;
-    --accent2: #e05a2b;
-    --text: #f0eee8;
-    --muted: #888;
-    --border: #333345;
-    --green: #4caf7d;
-  }
-
-- { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘Arial Black’, ‘Helvetica Neue’, sans-serif;
+background: #0f0f13;
+color: #f0eee8;
+font-family: Arial, Helvetica, sans-serif;
 min-height: 100vh;
 padding: 24px 16px 60px;
 }
@@ -32,7 +20,7 @@ h1 {
 font-size: clamp(2.8rem, 10vw, 5rem);
 font-weight: 900;
 letter-spacing: 0.08em;
-color: var(–accent);
+color: #f0c040;
 text-align: center;
 margin-bottom: 4px;
 line-height: 1;
@@ -41,25 +29,23 @@ text-transform: uppercase;
 
 .subtitle {
 text-align: center;
-color: var(–muted);
+color: #888;
 font-size: 0.9rem;
 margin-bottom: 32px;
-font-weight: 400;
-font-family: Arial, sans-serif;
 }
 
 .screen { display: none; max-width: 640px; margin: 0 auto; }
 .screen.active { display: block; }
 
 .name-box {
-background: var(–card);
-border: 1px solid var(–border);
+background: #1a1a24;
+border: 1px solid #333345;
 border-radius: 16px;
 padding: 32px 24px;
 text-align: center;
 }
-.name-box h2 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 900; }
-.name-box p { color: var(–muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5; font-family: Arial, sans-serif; font-weight: 400; }
+.name-box h2 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 900; color: #f0eee8; }
+.name-box p { color: #888; font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5; }
 
 .name-grid {
 display: grid;
@@ -69,25 +55,23 @@ margin-bottom: 24px;
 }
 
 .name-btn {
-background: var(–card2);
-border: 2px solid var(–border);
+background: #22222f;
+border: 2px solid #333345;
 border-radius: 10px;
-color: var(–text);
-font-family: ‘Arial Black’, sans-serif;
+color: #f0eee8;
+font-family: Arial, Helvetica, sans-serif;
 font-weight: 900;
 font-size: 0.9rem;
 padding: 12px 8px;
 cursor: pointer;
-transition: all 0.15s;
 position: relative;
 }
-.name-btn:hover { border-color: var(–accent); color: var(–accent); }
-.name-btn.selected { background: var(–accent); border-color: var(–accent); color: #111; }
+.name-btn.selected { background: #f0c040; border-color: #f0c040; color: #111; }
 .name-btn.voted { opacity: 0.4; cursor: not-allowed; }
-.name-btn.voted::after { content: ‘✓’; position: absolute; top: 4px; right: 6px; font-size: 0.7rem; color: var(–green); }
+.name-btn.voted::after { content: ‘✓’; position: absolute; top: 4px; right: 6px; font-size: 0.7rem; color: #4caf7d; }
 
 .progress-bar-wrap {
-background: var(–card2);
+background: #22222f;
 border-radius: 99px;
 height: 6px;
 margin-bottom: 24px;
@@ -95,14 +79,14 @@ overflow: hidden;
 }
 .progress-bar-fill {
 height: 100%;
-background: var(–accent);
+background: #f0c040;
 border-radius: 99px;
 transition: width 0.3s ease;
 }
 
 .category-card {
-background: var(–card);
-border: 1px solid var(–border);
+background: #1a1a24;
+border: 1px solid #333345;
 border-radius: 16px;
 padding: 24px;
 margin-bottom: 24px;
@@ -110,7 +94,7 @@ margin-bottom: 24px;
 
 .cat-number {
 font-size: 0.85rem;
-color: var(–accent2);
+color: #e05a2b;
 letter-spacing: 0.12em;
 margin-bottom: 6px;
 font-weight: 900;
@@ -119,8 +103,7 @@ text-transform: uppercase;
 
 .cat-title {
 font-size: clamp(1.4rem, 5vw, 2rem);
-color: var(–accent);
-letter-spacing: 0.03em;
+color: #f0c040;
 margin-bottom: 18px;
 line-height: 1.1;
 font-weight: 900;
@@ -138,28 +121,20 @@ gap: 8px;
 display: flex;
 align-items: center;
 gap: 10px;
-background: var(–card2);
-border: 1.5px solid var(–border);
+background: #22222f;
+border: 1.5px solid #333345;
 border-radius: 10px;
 padding: 12px 14px;
 cursor: grab;
 user-select: none;
 touch-action: none;
-transition: border-color 0.15s, background 0.15s;
 }
-.rank-item:active { cursor: grabbing; }
-.rank-item.dragging { opacity: 0.35; border-color: var(–accent); }
-.rank-item.drag-over { border-color: var(–accent); background: #2a2a38; }
+.rank-item.dragging { opacity: 0.35; border-color: #f0c040; }
+.rank-item.drag-over { border-color: #f0c040; background: #2a2a38; }
 
-.rank-num {
-font-size: 1.1rem;
-color: var(–accent);
-min-width: 26px;
-text-align: center;
-font-weight: 900;
-}
-.rank-name { font-weight: 900; font-size: 1rem; flex: 1; }
-.drag-icon { color: var(–muted); font-size: 1.2rem; }
+.rank-num { font-size: 1.1rem; color: #f0c040; min-width: 26px; text-align: center; font-weight: 900; }
+.rank-name { font-weight: 900; font-size: 1rem; flex: 1; color: #f0eee8; }
+.drag-icon { color: #888; font-size: 1.2rem; }
 
 .nav-row { display: flex; gap: 12px; margin-top: 8px; }
 
@@ -168,46 +143,40 @@ flex: 1;
 padding: 15px;
 border-radius: 12px;
 border: none;
-font-family: ‘Arial Black’, sans-serif;
+font-family: Arial, Helvetica, sans-serif;
 font-weight: 900;
 font-size: 1rem;
 cursor: pointer;
-transition: all 0.15s;
 text-transform: uppercase;
 letter-spacing: 0.05em;
 }
-.btn-primary { background: var(–accent); color: #111; }
-.btn-primary:hover { background: #f5d060; }
-.btn-primary:active { background: #d4a820; }
-.btn-secondary { background: var(–card2); color: var(–text); border: 1.5px solid var(–border); }
-.btn-secondary:hover { border-color: var(–accent); color: var(–accent); }
+.btn-primary { background: #f0c040; color: #111; }
+.btn-secondary { background: #22222f; color: #f0eee8; border: 1.5px solid #333345; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .screenshot-hint {
 background: #1a2a1a;
-border: 1.5px solid #4caf7d55;
+border: 1.5px solid rgba(76,175,125,0.3);
 border-radius: 12px;
 padding: 14px 18px;
 font-size: 0.85rem;
 color: #9dd4b0;
 margin-bottom: 20px;
 text-align: center;
-font-family: Arial, sans-serif;
 }
 
 .loading-box {
-background: var(–card);
-border: 1px solid var(–border);
+background: #1a1a24;
+border: 1px solid #333345;
 border-radius: 16px;
 padding: 40px 24px;
 text-align: center;
-color: var(–muted);
-font-family: Arial, sans-serif;
+color: #888;
 }
 .spinner {
 width: 36px; height: 36px;
-border: 3px solid var(–border);
-border-top-color: var(–accent);
+border: 3px solid #333345;
+border-top-color: #f0c040;
 border-radius: 50%;
 animation: spin 0.8s linear infinite;
 margin: 0 auto 16px;
@@ -215,109 +184,47 @@ margin: 0 auto 16px;
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .done-box {
-background: var(–card);
-border: 1px solid var(–border);
+background: #1a1a24;
+border: 1px solid #333345;
 border-radius: 16px;
 padding: 40px 24px;
 text-align: center;
 }
 .done-icon { font-size: 3.5rem; margin-bottom: 16px; }
-.done-box h2 { font-size: 2rem; color: var(–accent); margin-bottom: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
-.done-box p { color: var(–muted); font-size: 0.95rem; line-height: 1.7; font-family: Arial, sans-serif; font-weight: 400; }
+.done-box h2 { font-size: 2rem; color: #f0c040; margin-bottom: 12px; font-weight: 900; text-transform: uppercase; }
+.done-box p { color: #888; font-size: 0.95rem; line-height: 1.7; }
 
 #results-screen { max-width: 860px; }
 
-.results-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 16px;
-flex-wrap: wrap;
-gap: 12px;
-}
-.results-header h2 { font-size: 2rem; color: var(–accent); font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
-.voter-count {
-background: var(–card2);
-border: 1px solid var(–border);
-border-radius: 8px;
-padding: 6px 14px;
-font-size: 0.85rem;
-color: var(–muted);
-font-family: Arial, sans-serif;
-}
-.voter-count span { color: var(–accent); font-weight: 700; }
+.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.results-header h2 { font-size: 2rem; color: #f0c040; font-weight: 900; text-transform: uppercase; }
+.voter-count { background: #22222f; border: 1px solid #333345; border-radius: 8px; padding: 6px 14px; font-size: 0.85rem; color: #888; }
+.voter-count span { color: #f0c040; font-weight: 700; }
 
-.voters-list {
-background: var(–card2);
-border: 1px solid var(–border);
-border-radius: 12px;
-padding: 14px 16px;
-margin-bottom: 20px;
-font-size: 0.88rem;
-color: var(–muted);
-line-height: 1.6;
-font-family: Arial, sans-serif;
-}
-.voters-list strong { color: var(–text); }
+.voters-list { background: #22222f; border: 1px solid #333345; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; font-size: 0.88rem; color: #888; line-height: 1.6; }
+.voters-list strong { color: #f0eee8; }
 
-.result-card {
-background: var(–card);
-border: 1px solid var(–border);
-border-radius: 14px;
-padding: 20px;
-margin-bottom: 14px;
-}
-.result-cat-title {
-font-size: 1.2rem;
-color: var(–accent);
-margin-bottom: 14px;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 0.03em;
-}
+.result-card { background: #1a1a24; border: 1px solid #333345; border-radius: 14px; padding: 20px; margin-bottom: 14px; }
+.result-cat-title { font-size: 1.2rem; color: #f0c040; margin-bottom: 14px; font-weight: 900; text-transform: uppercase; }
 .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.result-rank { font-size: 1rem; color: var(–accent2); min-width: 26px; font-weight: 900; }
-.result-name { font-weight: 900; min-width: 85px; font-size: 0.9rem; }
-.bar-wrap { flex: 1; background: var(–card2); border-radius: 99px; height: 10px; overflow: hidden; }
+.result-rank { font-size: 1rem; color: #e05a2b; min-width: 26px; font-weight: 900; }
+.result-name { font-weight: 900; min-width: 85px; font-size: 0.9rem; color: #f0eee8; }
+.bar-wrap { flex: 1; background: #22222f; border-radius: 99px; height: 10px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
-.bar-fill.top1 { background: var(–accent); }
-.bar-fill.top2 { background: #c8a030; }
-.bar-fill.top3 { background: #7a6010; }
-.bar-fill.rest { background: #444; }
-.score-label { font-size: 0.78rem; color: var(–muted); min-width: 50px; text-align: right; font-family: Arial, sans-serif; }
+.score-label { font-size: 0.78rem; color: #888; min-width: 50px; text-align: right; }
 
 .admin-link { text-align: center; margin-top: 32px; }
-.admin-link button {
-background: none; border: none; color: var(–muted);
-font-size: 0.8rem; cursor: pointer; text-decoration: underline;
-font-family: Arial, sans-serif;
-}
+.admin-link button { background: none; border: none; color: #888; font-size: 0.8rem; cursor: pointer; text-decoration: underline; font-family: Arial; }
 
-.admin-modal {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.8); z-index: 100;
-align-items: center; justify-content: center;
-}
+.admin-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
 .admin-modal.open { display: flex; }
-.admin-box {
-background: var(–card); border: 1px solid var(–border);
-border-radius: 16px; padding: 32px;
-max-width: 340px; width: 90%; text-align: center;
-}
-.admin-box h3 { margin-bottom: 16px; font-size: 1.1rem; font-weight: 900; }
-.admin-box input {
-width: 100%; background: var(–card2); border: 1.5px solid var(–border);
-border-radius: 10px; padding: 12px 16px; color: var(–text);
-font-family: Arial, sans-serif; font-size: 1rem;
-margin-bottom: 12px; outline: none;
-}
-.admin-box input:focus { border-color: var(–accent); }
-.admin-close { margin-top: 12px; display: block; background: none; border: none; color: var(–muted); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.9rem; }
-.error-msg { color: #e05a2b; font-size: 0.85rem; margin-bottom: 10px; min-height: 20px; font-family: Arial, sans-serif; }
+.admin-box { background: #1a1a24; border: 1px solid #333345; border-radius: 16px; padding: 32px; max-width: 340px; width: 90%; text-align: center; }
+.admin-box h3 { margin-bottom: 16px; font-size: 1.1rem; font-weight: 900; color: #f0eee8; }
+.admin-box input { width: 100%; background: #22222f; border: 1.5px solid #333345; border-radius: 10px; padding: 12px 16px; color: #f0eee8; font-family: Arial; font-size: 1rem; margin-bottom: 12px; outline: none; }
+.admin-close { margin-top: 12px; display: block; background: none; border: none; color: #888; cursor: pointer; font-family: Arial; font-size: 0.9rem; }
+.error-msg { color: #e05a2b; font-size: 0.85rem; margin-bottom: 10px; min-height: 20px; }
 
-@media (max-width: 480px) {
-.name-grid { grid-template-columns: repeat(3, 1fr); }
-}
+@media (max-width: 480px) { .name-grid { grid-template-columns: repeat(3, 1fr); } }
 </style>
 
 </head>
@@ -404,7 +311,7 @@ const CATEGORIES = [
 const ADMIN_PASSWORD = "legendarna2024";
 const BIN_ID = "69f7c804856a682189a16ec5";
 const API_KEY = "$2a$10$/dVaC9ZeJui.1phRY/KA9uMLboqu/iTHS9IzSNKwd7lk9AnhSYqSK";
-const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const API_URL = "https://api.jsonbin.io/v3/b/" + BIN_ID;
 
 let selectedName = null;
 let currentCat = 0;
@@ -435,20 +342,20 @@ async function init() {
     showScreen('name-screen');
   } catch(e) {
     document.querySelector('#loading-screen .loading-box').innerHTML =
-      '<p style="color:#e05a2b;font-family:Arial">Грешка при зареждане. Провери интернет и презареди.</p>';
+      '<p style="color:#e05a2b">Грешка при зареждане. Провери интернет и презареди.</p>';
   }
 }
 
 function buildNameGrid(voters) {
   const grid = document.getElementById('name-grid');
   grid.innerHTML = '';
-  NAMES.forEach(name => {
-    const hasVoted = voters.includes(name);
-    const btn = document.createElement('button');
+  NAMES.forEach(function(name) {
+    var hasVoted = voters.includes(name);
+    var btn = document.createElement('button');
     btn.className = 'name-btn' + (hasVoted ? ' voted' : '');
     btn.textContent = name;
     btn.disabled = hasVoted;
-    btn.onclick = () => selectName(name, btn, voters);
+    btn.onclick = function() { selectName(name, btn, voters); };
     grid.appendChild(btn);
   });
 }
@@ -456,43 +363,42 @@ function buildNameGrid(voters) {
 function selectName(name, btn, voters) {
   if (voters.includes(name)) return;
   selectedName = name;
-  document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.name-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
   document.getElementById('start-btn').disabled = false;
 }
 
 function startVoting() {
   if (!selectedName) return;
-  votes = CATEGORIES.map(() => [...NAMES]);
+  votes = CATEGORIES.map(function() { return [...NAMES]; });
   currentCat = 0;
   showScreen('vote-screen');
   renderCategory();
 }
 
 function renderCategory() {
-  const total = CATEGORIES.length;
+  var total = CATEGORIES.length;
   document.getElementById('progress-fill').style.width = (currentCat / total * 100) + '%';
   document.getElementById('prev-btn').disabled = currentCat === 0;
   document.getElementById('next-btn').textContent = currentCat === total - 1 ? 'Завърши ✓' : 'Напред →';
 
-  const container = document.getElementById('category-container');
+  var container = document.getElementById('category-container');
   container.innerHTML = '';
-  const card = document.createElement('div');
+  var card = document.createElement('div');
   card.className = 'category-card';
-  card.innerHTML = `
-    <div class="cat-number">Категория ${currentCat+1} / ${total}</div>
-    <div class="cat-title">${CATEGORIES[currentCat]}</div>
-    <ul class="ranking-list" id="rank-list"></ul>
-  `;
+  card.innerHTML =
+    '<div class="cat-number">Категория ' + (currentCat+1) + ' / ' + total + '</div>' +
+    '<div class="cat-title">' + CATEGORIES[currentCat] + '</div>' +
+    '<ul class="ranking-list" id="rank-list"></ul>';
   container.appendChild(card);
 
-  const list = document.getElementById('rank-list');
-  votes[currentCat].forEach((name, i) => {
-    const li = document.createElement('li');
+  var list = document.getElementById('rank-list');
+  votes[currentCat].forEach(function(name, i) {
+    var li = document.createElement('li');
     li.className = 'rank-item';
     li.draggable = true;
     li.dataset.index = i;
-    li.innerHTML = `<span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="drag-icon">⠿</span>`;
+    li.innerHTML = '<span class="rank-num">' + (i+1) + '</span><span class="rank-name">' + name + '</span><span class="drag-icon">⠿</span>';
     li.addEventListener('dragstart', onDragStart);
     li.addEventListener('dragover', onDragOver);
     li.addEventListener('drop', onDrop);
@@ -505,35 +411,35 @@ function renderCategory() {
 }
 
 function onDragStart(e) { dragging = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
-function onDragOver(e) { e.preventDefault(); document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('drag-over')); this.classList.add('drag-over'); }
+function onDragOver(e) { e.preventDefault(); document.querySelectorAll('.rank-item').forEach(function(el) { el.classList.remove('drag-over'); }); this.classList.add('drag-over'); }
 function onDrop(e) {
   e.preventDefault();
   if (dragging && dragging !== this) {
-    const from = parseInt(dragging.dataset.index), to = parseInt(this.dataset.index);
-    const [m] = votes[currentCat].splice(from, 1);
+    var from = parseInt(dragging.dataset.index), to = parseInt(this.dataset.index);
+    var m = votes[currentCat].splice(from, 1)[0];
     votes[currentCat].splice(to, 0, m);
     renderCategory();
   }
 }
-function onDragEnd() { document.querySelectorAll('.rank-item').forEach(el => { el.classList.remove('dragging'); el.classList.remove('drag-over'); }); dragging = null; }
+function onDragEnd() { document.querySelectorAll('.rank-item').forEach(function(el) { el.classList.remove('dragging'); el.classList.remove('drag-over'); }); dragging = null; }
 
 function onTouchStart(e) { touchDragIndex = parseInt(this.dataset.index); this.classList.add('dragging'); }
 function onTouchMove(e) {
   e.preventDefault();
-  const y = e.touches[0].clientY;
-  const items = Array.from(document.querySelectorAll('.rank-item'));
-  let targetIndex = touchDragIndex;
-  items.forEach((item, i) => { const r = item.getBoundingClientRect(); if (y > r.top && y < r.bottom) targetIndex = i; });
+  var y = e.touches[0].clientY;
+  var items = Array.from(document.querySelectorAll('.rank-item'));
+  var targetIndex = touchDragIndex;
+  items.forEach(function(item, i) { var r = item.getBoundingClientRect(); if (y > r.top && y < r.bottom) targetIndex = i; });
   if (targetIndex !== touchDragIndex) {
-    const [m] = votes[currentCat].splice(touchDragIndex, 1);
+    var m = votes[currentCat].splice(touchDragIndex, 1)[0];
     votes[currentCat].splice(targetIndex, 0, m);
     touchDragIndex = targetIndex;
     renderCategory();
-    const newItems = document.querySelectorAll('.rank-item');
+    var newItems = document.querySelectorAll('.rank-item');
     if (newItems[targetIndex]) newItems[targetIndex].classList.add('dragging');
   }
 }
-function onTouchEnd() { document.querySelectorAll('.rank-item').forEach(el => el.classList.remove('dragging')); }
+function onTouchEnd() { document.querySelectorAll('.rank-item').forEach(function(el) { el.classList.remove('dragging'); }); }
 
 function nextCat() {
   if (currentCat < CATEGORIES.length - 1) {
@@ -545,28 +451,28 @@ function prevCat() {
 }
 
 async function submitVotes() {
-  const btn = document.getElementById('next-btn');
+  var btn = document.getElementById('next-btn');
   btn.disabled = true;
   btn.textContent = '⏳ Записва се...';
   try {
-    const fresh = await fetchData();
+    var fresh = await fetchData();
     if (fresh.voters && fresh.voters.includes(selectedName)) {
       alert('Вече си гласувал/а!');
       btn.disabled = false;
       btn.textContent = 'Завърши ✓';
       return;
     }
-    const N = NAMES.length;
-    const results = fresh.results || {};
-    CATEGORIES.forEach((cat, ci) => {
+    var N = NAMES.length;
+    var results = fresh.results || {};
+    CATEGORIES.forEach(function(cat, ci) {
       if (!results[cat]) results[cat] = {};
-      votes[ci].forEach((name, rank) => {
+      votes[ci].forEach(function(name, rank) {
         if (!results[cat][name]) results[cat][name] = 0;
         results[cat][name] += (N - rank);
       });
     });
-    const voters = [...(fresh.voters || []), selectedName];
-    await putData({ voters, results });
+    var voters = (fresh.voters || []).concat([selectedName]);
+    await putData({ voters: voters, results: results });
     showScreen('done-screen');
   } catch(e) {
     btn.disabled = false;
@@ -580,30 +486,30 @@ async function showResults() {
   document.getElementById('results-container').innerHTML =
     '<div class="loading-box"><div class="spinner"></div><p>Зарежда...</p></div>';
   try {
-    const data = await fetchData();
-    const voters = data.voters || [];
-    const results = data.results || {};
+    var data = await fetchData();
+    var voters = data.voters || [];
+    var results = data.results || {};
     document.getElementById('voter-count-num').textContent = voters.length;
     document.getElementById('voters-list').innerHTML =
-      `<strong>Гласували (${voters.length}/13):</strong> ${voters.length > 0 ? voters.join(', ') : 'Все още няма гласове'}`;
-    const container = document.getElementById('results-container');
+      '<strong>Гласували (' + voters.length + '/13):</strong> ' + (voters.length > 0 ? voters.join(', ') : 'Все още няма гласове');
+    var container = document.getElementById('results-container');
     container.innerHTML = '';
-    CATEGORIES.forEach(cat => {
-      const scores = results[cat] || {};
-      const sorted = NAMES.map(n => ({ name: n, score: scores[n] || 0 })).sort((a,b) => b.score - a.score);
-      const maxScore = sorted[0]?.score || 1;
-      const card = document.createElement('div');
+    CATEGORIES.forEach(function(cat) {
+      var scores = results[cat] || {};
+      var sorted = NAMES.map(function(n) { return { name: n, score: scores[n] || 0 }; }).sort(function(a,b) { return b.score - a.score; });
+      var maxScore = sorted[0] ? sorted[0].score : 1;
+      var card = document.createElement('div');
       card.className = 'result-card';
-      let html = `<div class="result-cat-title">${cat}</div>`;
-      sorted.forEach((item, i) => {
-        const pct = maxScore > 0 ? (item.score / maxScore * 100) : 0;
-        const cls = i===0?'top1':i===1?'top2':i===2?'top3':'rest';
-        html += `<div class="result-row">
-          <span class="result-rank">${i+1}.</span>
-          <span class="result-name">${item.name}</span>
-          <div class="bar-wrap"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
-          <span class="score-label">${item.score}т.</span>
-        </div>`;
+      var html = '<div class="result-cat-title">' + cat + '</div>';
+      sorted.forEach(function(item, i) {
+        var pct = maxScore > 0 ? (item.score / maxScore * 100) : 0;
+        var color = i===0 ? '#f0c040' : i===1 ? '#c8a030' : i===2 ? '#7a6010' : '#444';
+        html += '<div class="result-row">' +
+          '<span class="result-rank">' + (i+1) + '.</span>' +
+          '<span class="result-name">' + item.name + '</span>' +
+          '<div class="bar-wrap"><div class="bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+          '<span class="score-label">' + item.score + 'т.</span>' +
+          '</div>';
       });
       card.innerHTML = html;
       container.appendChild(card);
@@ -614,7 +520,7 @@ async function showResults() {
   }
 }
 
-function openAdmin() { document.getElementById('admin-modal').classList.add('open'); setTimeout(()=>document.getElementById('admin-pass').focus(),100); }
+function openAdmin() { document.getElementById('admin-modal').classList.add('open'); setTimeout(function(){ document.getElementById('admin-pass').focus(); }, 100); }
 function closeAdmin() { document.getElementById('admin-modal').classList.remove('open'); document.getElementById('admin-error').textContent=''; document.getElementById('admin-pass').value=''; }
 function checkAdmin() {
   if (document.getElementById('admin-pass').value === ADMIN_PASSWORD) { closeAdmin(); showResults(); }
@@ -622,7 +528,7 @@ function checkAdmin() {
 }
 
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
